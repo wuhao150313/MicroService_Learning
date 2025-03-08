@@ -6,9 +6,7 @@ import top.wxy.requestservice1.client.UserClient;
 import top.wxy.requestservice1.entity.User;
 import java.util.List;
 
-/**
- * @author 笼中雀
- */
+
 @RestController
 @RequestMapping("/api")
 public class UserController {

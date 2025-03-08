@@ -1,31 +1,3 @@
-server:
-  port: 8081
-
 spring:
-  application:
-    name: user-service
-  cloud:
-    nacos:
-      discovery:
-        server-addr: localhost:8848
-        username: nacos
-        password: nacos
-  datasource:
-    url: jdbc:mysql://localhost:3306/user_center?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: root
-    password: password
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
-#logging:
-#  level:
-#    org.springframework: TRACE
-#    org.springframework.beans.factory: TRACE
-#    org.springframework.boot: TRACE
-#    com.baomidou.mybatisplus: TRACE
-    # 根据需要进一步设置其他包的日志级别
-
-
+  profiles:
+    active: dev
