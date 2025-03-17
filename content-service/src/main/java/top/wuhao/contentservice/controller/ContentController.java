@@ -1,5 +1,6 @@
 package top.wuhao.contentservice.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -21,7 +22,14 @@ public class ContentController {
     private final String USER_SERVICE_URL = "http://localhost:8081/user/{id}";
 
     @GetMapping("/share/{id}")
+    @SentinelResource(value="/share/{id}")
     public Map<String, Object> getShareInfo(@PathVariable("id") int id) {
+//        try {
+//            Thread.sleep(500);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+
         Map<String, Object> result = new HashMap<>();
 
         // 1️⃣ 查询本地 Share 数据
