@@ -1,0 +1,57 @@
+server:
+  port: 9090
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user_route
+          order: 1
+          uri: lb://user-service
+          predicates:
+            - Path=/user/**
+#            - Query=userId, 123
+#            - Header=token,\d+
+#            - Before=2025-03-20T23:59:59+08:00
+
+#            - Header=token, \d+
+#            - After=2025-03-21T23:59:59+08:00
+#            - Between=2025-03-21T08:00:00+08:00,2025-03-21T23:59:59+08:00
+#            - JDK-21
+          filters:
+            - StripPrefix=1
+
+        - id: content_route
+          order: 1
+          uri: lb://content-service
+          predicates:
+            - Path=/content/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+#            - InvalidParameter=token,abc
+
+        - id: ai_route
+          order: 1
+          uri: lb://ai-service
+          predicates:
+            - Path=/ai/**
+            - TokenPrefix=abc #自定义token断言
+
+          #            - Before=2025-03-22T23:59:59+08:00
+          filters:
+            - StripPrefix=1
+
+    sentinel:
+      filter:
+        enabled: false
+      transport:
+        port: 8719
+        dashboard: localhost:8888
+      scg:
+        fallback:
+          mode: response
+          response-status: 500
+          response-body: '{"code": 500,"msg": "网关流量超量！"}'
